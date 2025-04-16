@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aizza College of Engineering and Technology</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>tailwind.config={theme:{extend:{colors:{primary:'#1e40af',secondary:'#f59e0b'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+    <style>
+        :where([class^="ri-"])::before { content: "\f3c2"; }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .hero-section {
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.9) 40%, rgba(255, 255, 255, 0.7) 60%, rgba(255, 255, 255, 0.3) 80%, rgba(255, 255, 255, 0) 100%), url('https://readdy.ai/api/search-image?query=Modern%20university%20campus%20with%20futuristic%20architecture%2C%20state-of-the-art%20engineering%20buildings%2C%20green%20open%20spaces%2C%20students%20walking%20between%20classes%2C%20bright%20sunny%20day%2C%20professional%20photography%20with%20shallow%20depth%20of%20field%2C%20clean%20composition%2C%20inspiring%20academic%20environment&width=1600&height=800&seq=12345&orientation=landscape');
+            background-size: cover;
+            background-position: center;
+        }
+        .custom-input {
+            border: none;
+            outline: none;
+            background: transparent;
+        }
+        .custom-input:focus {
+            outline: none;
+        }
+        .custom-checkbox {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 1.25rem;
+            height: 1.25rem;
+            border: 2px solid #d1d5db;
+            border-radius: 4px;
+            position: relative;
+            cursor: pointer;
+        }
+        .custom-checkbox:checked {
+            background-color: #1e40af;
+            border-color: #1e40af;
+        }
+        .custom-checkbox:checked::after {
+            content: '';
+            position: absolute;
+            width: 0.5rem;
+            height: 0.75rem;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            top: 0.1rem;
+            left: 0.35rem;
+            transform: rotate(45deg);
+        }
+        .custom-switch {
+            position: relative;
+            display: inline-block;
+            width: 3rem;
+            height: 1.5rem;
+        }
+        .custom-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #e5e7eb;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 1.1rem;
+            width: 1.1rem;
+            left: 0.2rem;
+            bottom: 0.2rem;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #1e40af;
+        }
+        input:checked + .slider:before {
+            transform: translateX(1.5rem);
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            z-index: 50;
+            border-radius: 8px;
+            right: 0;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        .masonry-grid {
+            column-count: 3;
+            column-gap: 1rem;
+        }
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 1rem;
+        }
+        @media (max-width: 768px) {
+            .masonry-grid {
+                column-count: 2;
+            }
+        }
+        @media (max-width: 640px) {
+            .masonry-grid {
+                column-count: 1;
+            }
+        }
+    </style>
+</head>
+<body class="bg-white">
+    <!-- Header Section -->
+    <header class="sticky top-0 z-50 bg-white shadow-md">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center">
+                <h1 class="text-2xl font-['Pacifico'] text-primary mr-8">Aizza</h1>
+                <nav class="hidden md:flex space-x-6">
+                    <a href="#" class="text-gray-800 hover:text-primary font-medium">Home</a>
+                    <a href="#" class="text-gray-800 hover:text-primary font-medium">About</a>
+                    <a href="#" class="text-gray-800 hover:text-primary font-medium">Academics</a>
+                    <a href="#" class="text-gray-800 hover:text-primary font-medium">Admissions</a>
+                    <a href="#" class="text-gray-800 hover:text-primary font-medium">Campus Life</a>
+                    <a href="#" class="text-gray-800 hover:text-primary font-medium">Contact</a>
+                </nav>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="hidden md:flex items-center border border-gray-300 rounded-full px-3 py-1">
+                    <input type="text" placeholder="Search..." class="custom-input text-sm w-32">
+                    <div class="w-8 h-8 flex items-center justify-center text-gray-500">
+                        <i class="ri-search-line"></i>
+                    </div>
+                </div>
+                <a href="#" class="hidden md:block text-primary font-medium">Student Portal</a>
+                <a href="#" class="bg-primary text-white px-4 py-2 !rounded-button whitespace-nowrap font-medium hover:bg-primary/90">Apply Now</a>
+                <button class="md:hidden w-10 h-10 flex items-center justify-center">
+                    <i class="ri-menu-line text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section w-full min-h-[600px] flex items-center">
+        <div class="container mx-auto px-4 py-16 w-full">
+            <div class="max-w-2xl">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Engineering Excellence for Tomorrow's Leaders</h1>
+                <p class="text-lg text-gray-700 mb-8">Aizza College of Engineering and Technology provides world-class education with cutting-edge facilities and industry connections to shape the innovators of tomorrow.</p>
+                <div class="flex flex-wrap gap-4 mb-12">
+                    <a href="#programs" class="bg-primary text-white px-6 py-3 !rounded-button whitespace-nowrap font-medium hover:bg-primary/90">Explore Programs</a>
+                    <a href="#admission" class="bg-white border-2 border-primary text-primary px-6 py-3 !rounded-button whitespace-nowrap font-medium hover:bg-gray-50">Apply Now</a>
+                </div>
+                <div class="grid grid-cols-3 gap-6 bg-white/80 p-6 rounded-lg shadow-sm">
+                    <div class="text-center">
+                        <p class="text-3xl font-bold text-primary">5,000+</p>
+                        <p class="text-gray-700">Students</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-3xl font-bold text-primary">250+</p>
+                        <p class="text-gray-700">Faculty Members</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-3xl font-bold text-primary">92%</p>
+                        <p class="text-gray-700">Placement Rate</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Programs Overview -->
+    <section id="programs" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Our Engineering Programs</h2>
+                <p class="text-gray-700 max-w-3xl mx-auto">Discover our comprehensive range of engineering programs designed to prepare you for the challenges of tomorrow's technological landscape.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+                    <div class="p-6">
+                        <div class="w-16 h-16 flex items-center justify-center bg-primary/10 rounded-full mb-4">
+                            <i class="ri-computer-line text-2xl text-primary"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Computer Science Engineering</h3>
+                        <p class="text-gray-700 mb-4">Develop cutting-edge software solutions and explore artificial intelligence, machine learning, and data science.</p>
+                        <a href="#" class="text-primary font-medium flex items-center">
+                            Learn More
+                            <i class="ri-arrow-right-line ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+                    <div class="p-6">
+                        <div class="w-16 h-16 flex items-center justify-center bg-primary/10 rounded-full mb-4">
+                            <i class="ri-robot-line text-2xl text-primary"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Mechanical Engineering</h3>
+                        <p class="text-gray-700 mb-4">Design and analyze mechanical systems, from automotive engineering to robotics and manufacturing processes.</p>
+                        <a href="#" class="text-primary font-medium flex items-center">
+                            Learn More
+                            <i class="ri-arrow-right-line ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+                    <div class="p-6">
+                        <div class="w-16 h-16 flex items-center justify-center bg-primary/10 rounded-full mb-4">
+                            <i class="ri-flashlight-line text-2xl text-primary"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Electrical Engineering</h3>
+                        <p class="text-gray-700 mb-4">Study power systems, electronics, control systems, and telecommunications for the energy sector and beyond.</p>
+                        <a href="#" class="text-primary font-medium flex items-center">
+                            Learn More
+                            <i class="ri-arrow-right-line ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+                    <div class="p-6">
+                        <div class="w-16 h-16 flex items-center justify-center bg-primary/10 rounded-full mb-4">
+                            <i class="ri-building-line text-2xl text-primary"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Civil Engineering</h3>
+                        <p class="text-gray-700 mb-4">Design, construct, and maintain infrastructure projects including buildings, bridges, roads, and water systems.</p>
+                        <a href="#" class="text-primary font-medium flex items-center">
+                            Learn More
+                            <i class="ri-arrow-right-line ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-12 text-center">
+                <a href="#" class="inline-flex items-center justify-center bg-white border-2 border-primary text-primary px-6 py-3 !rounded-button whitespace-nowrap font-medium hover:bg-gray-50">
+                    View All Programs
+                    <i class="ri-arrow-right-line ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Campus Highlights -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Campus Highlights</h2>
+                <p class="text-gray-700 max-w-3xl mx-auto">Experience our state-of-the-art facilities designed to provide the best learning environment for aspiring engineers.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                    <div class="h-64 overflow-hidden">
+                        <img src="https://readdy.ai/api/search-image?query=Modern%20engineering%20laboratory%20with%20advanced%20equipment%2C%20students%20working%20on%20experiments%2C%20bright%20lighting%2C%20clean%20workstations%2C%20high-tech%20devices%2C%20computer%20terminals%2C%20professional%20photography%20with%20shallow%20depth%20of%20field&width=600&height=400&seq=12346&orientation=landscape" alt="Advanced Laboratories" class="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-500">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Advanced Laboratories</h3>
+                        <p class="text-gray-700">Our laboratories are equipped with cutting-edge technology to provide hands-on experience in various engineering disciplines.</p>
+                    </div>
+                </div>
+                <div class="overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                    <div class="h-64 overflow-hidden">
+                        <img src="https://readdy.ai/api/search-image?query=Modern%20university%20classroom%20with%20tiered%20seating%2C%20digital%20projector%2C%20interactive%20whiteboard%2C%20comfortable%20ergonomic%20chairs%2C%20natural%20lighting%2C%20students%20engaged%20in%20learning%2C%20professional%20photography%20with%20shallow%20depth%20of%20field&width=600&height=400&seq=12347&orientation=landscape" alt="Smart Classrooms" class="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-500">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Smart Classrooms</h3>
+                        <p class="text-gray-700">Our classrooms are equipped with modern audio-visual aids and smart boards to enhance the learning experience.</p>
+                    </div>
+                </div>
+                <div class="overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                    <div class="h-64 overflow-hidden">
+                        <img src="https://readdy.ai/api/search-image?query=University%20research%20center%20with%20advanced%20equipment%2C%20researchers%20working%20on%20innovative%20projects%2C%20scientific%20instruments%2C%20computer%20workstations%2C%20collaborative%20environment%2C%20bright%20modern%20interior%2C%20professional%20photography%20with%20shallow%20depth%20of%20field&width=600&height=400&seq=12348&orientation=landscape" alt="Research Facilities" class="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-500">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Research Facilities</h3>
+                        <p class="text-gray-700">Our research centers foster innovation and provide students with opportunities to work on cutting-edge projects.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-12 text-center">
+                <a href="#" class="inline-flex items-center justify-center bg-primary text-white px-6 py-3 !rounded-button whitespace-nowrap font-medium hover:bg-primary/90">
+                    Take a Virtual Tour
+                    <i class="ri-360-view-line ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Admission Section -->
+    <section id="admission" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Admission Process</h2>
+                <p class="text-gray-700 max-w-3xl mx-auto">Join our community of future engineers and innovators. Follow these steps to begin your journey with us.</p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <div>
+                    <div class="bg-white rounded-lg shadow-sm p-8">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-6">Application Steps</h3>
+                        <div class="space-y-8">
+                            <div class="flex">
+                                <div class="flex-shrink-0 mr-4">
+                                    <div class="w-10 h-10 flex items-center justify-center rounded-full bg-primary text-white font-semibold">1</div>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-medium text-gray-900 mb-1">Online Registration</h4>
+                                    <p class="text-gray-700">Create an account on our admission portal and fill in your basic details.</p>
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <div class="flex-shrink-0 mr-4">
+                                    <div class="w-10 h-10 flex items-center justify-center rounded-full bg-primary text-white font-semibold">2</div>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-medium text-gray-900 mb-1">Submit Application</h4>
+                                    <p class="text-gray-700">Complete the application form and upload required documents.</p>
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <div class="flex-shrink-0 mr-4">
+                                    <div class="w-10 h-10 flex items-center justify-center rounded-full bg-primary text-white font-semibold">3</div>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-medium text-gray-900 mb-1">Entrance Examination</h4>
+                                    <p class="text-gray-700">Take our entrance examination to demonstrate your aptitude and knowledge.</p>
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <div class="flex-shrink-0 mr-4">
+                                    <div class="w-10 h-10 flex items-center justify-center rounded-full bg-primary text-white font-semibold">4</div>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-medium text-gray-900 mb-1">Interview</h4>
+                                    <p class="text-gray-700">Shortlisted candidates will be called for a personal interview.</p>
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <div class="flex-shrink-0 mr-4">
+                                    <div class="w-10 h-10 flex items-center justify-center rounded-full bg-primary text-white font-semibold">5</div>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-medium text-gray-900 mb-1">Admission Offer</h4>
+                                    <p class="text-gray-700">Selected candidates will receive an admission offer with fee details.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="bg-white rounded-lg shadow-sm p-8 mb-8">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-6">Important Dates</h3>
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center pb-3 border-b border-gray-200">
+                                <span class="font-medium text-gray-900">Application Opens</span>
+                                <span class="text-primary font-semibold">April 15, 2025</span>
+                            </div>
+                            <div class="flex justify-between items-center pb-3 border-b border-gray-200">
+                                <span class="font-medium text-gray-900">Application Deadline</span>
+                                <span class="text-primary font-semibold">June 30, 2025</span>
+                            </div>
+                            <div class="flex justify-between items-center pb-3 border-b border-gray-200">
+                                <span class="font-medium text-gray-900">Entrance Examination</span>
+                                <span class="text-primary font-semibold">July 15, 2025</span>
+                            </div>
+                            <div class="flex justify-between items-center pb-3 border-b border-gray-200">
+                                <span class="font-medium text-gray-900">Interview Dates</span>
+                                <span class="text-primary font-semibold">July 25-30, 2025</span>
+                            </div>
+                            <div class="flex justify-between items-center pb-3 border-b border-gray-200">
+                                <span class="font-medium text-gray-900">Results Announcement</span>
+                                <span class="text-primary font-semibold">August 10, 2025</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="font-medium text-gray-900">Classes Begin</span>
+                                <span class="text-primary font-semibold">September 1, 2025</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-sm p-8">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-6">Required Documents</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center">
+                                <i class="ri-check-line text-primary mr-3"></i>
+                                <span class="text-gray-700">High School Transcripts</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="ri-check-line text-primary mr-3"></i>
+                                <span class="text-gray-700">Standardized Test Scores</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="ri-check-line text-primary mr-3"></i>
+                                <span class="text-gray-700">Letter of Recommendation</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="ri-check-line text-primary mr-3"></i>
+                                <span class="text-gray-700">Personal Statement</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="ri-check-line text-primary mr-3"></i>
+                                <span class="text-gray-700">Identification Proof</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="ri-check-line text-primary mr-3"></i>
+                                <span class="text-gray-700">Passport-sized Photographs</span>
+                            </div>
+                        </div>
+                        <div class="mt-6">
+                            <a href="#" class="inline-flex items-center justify-center bg-primary text-white px-6 py-3 !rounded-button whitespace-nowrap font-medium hover:bg-primary/90 w-full">
+                                Apply Online Now
+                                <i class="ri-arrow-right-line ml-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Student Life Gallery -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Student Life</h2>
+                <p class="text-gray-700 max-w-3xl mx-auto">Experience a vibrant campus life with a perfect balance of academic and extracurricular activities.</p>
+            </div>
+            <div class="flex justify-center mb-8">
+                <div class="inline-flex bg-gray-100 rounded-full p-1">
+                    <button class="px-6 py-2 rounded-full bg-primary text-white !rounded-button whitespace-nowrap font-medium">All</button>
+                    <button class="px-6 py-2 rounded-full text-gray-700 hover:bg-gray-200 !rounded-button whitespace-nowrap font-medium">Technical</button>
+                    <button class="px-6 py-2 rounded-full text-gray-700 hover:bg-gray-200 !rounded-button whitespace-nowrap font-medium">Cultural</button>
+                    <button class="px-6 py-2 rounded-full text-gray-700 hover:bg-gray-200 !rounded-button whitespace-nowrap font-medium">Sports</button>
+                </div>
+            </div>
+            <div class="masonry-grid">
+                <div class="masonry-item">
+                    <div class="relative rounded-lg overflow-hidden group">
+                        <img src="https://readdy.ai/api/search-image?query=College%20students%20participating%20in%20robotics%20competition%2C%20teamwork%2C%20focused%20students%2C%20engineering%20project%2C%20modern%20robotics%20lab%2C%20professional%20photography%20with%20vibrant%20colors&width=400&height=300&seq=12349&orientation=landscape" alt="Robotics Competition" class="w-full">
+                        <div class="absolute inset-0 bg-primary/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <div class="text-center text-white p-4">
+                                <h3 class="text-xl font-semibold mb-2">Robotics Competition</h3>
+                                <p>Annual robotics competition showcasing innovative designs by our engineering students.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="masonry-item">
+                    <div class="relative rounded-lg overflow-hidden group">
+                        <img src="https://readdy.ai/api/search-image?query=College%20cultural%20festival%2C%20students%20performing%20on%20stage%2C%20colorful%20decorations%2C%20audience%20enjoying%2C%20vibrant%20atmosphere%2C%20professional%20photography%20with%20dynamic%20composition&width=400&height=500&seq=12350&orientation=portrait" alt="Cultural Festival" class="w-full">
+                        <div class="absolute inset-0 bg-primary/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <div class="text-center text-white p-4">
+                                <h3 class="text-xl font-semibold mb-2">Annual Cultural Festival</h3>
+                                <p>A celebration of diversity and talent through music, dance, and art performances.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="masonry-item">
+                    <div class="relative rounded-lg overflow-hidden group">
+                        <img src="https://readdy.ai/api/search-image?query=College%20hackathon%20event%2C%20students%20coding%20on%20laptops%2C%20collaborative%20environment%2C%20focused%20programmers%2C%20tech%20atmosphere%2C%20professional%20photography%20with%20ambient%20lighting&width=400&height=300&seq=12351&orientation=landscape" alt="Hackathon" class="w-full">
+                        <div class="absolute inset-0 bg-primary/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <div class="text-center text-white p-4">
+                                <h3 class="text-xl font-semibold mb-2">24-Hour Hackathon</h3>
+                                <p>Students collaborate to develop innovative solutions to real-world problems.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="masonry-item">
+                    <div class="relative rounded-lg overflow-hidden group">
+                        <img src="https://readdy.ai/api/search-image?query=College%20sports%20event%2C%20students%20playing%20basketball%2C%20competitive%20atmosphere%2C%20athletic%20activity%2C%20modern%20sports%20facility%2C%20professional%20photography%20with%20action%20shots&width=400&height=400&seq=12352&orientation=squarish" alt="Sports Tournament" class="w-full">
+                        <div class="absolute inset-0 bg-primary/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <div class="text-center text-white p-4">
+                                <h3 class="text-xl font-semibold mb-2">Inter-College Sports</h3>
+                                <p>Students compete in various sports disciplines against other colleges.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="masonry-item">
+                    <div class="relative rounded-lg overflow-hidden group">
+                        <img src="https://readdy.ai/api/search-image?query=College%20workshop%20on%203D%20printing%2C%20students%20learning%20new%20technology%2C%20hands-on%20experience%2C%20engineering%20education%2C%20modern%20equipment%2C%20professional%20photography%20with%20technical%20focus&width=400&height=300&seq=12353&orientation=landscape" alt="Technical Workshop" class="w-full">
+                        <div class="absolute inset-0 bg-primary/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <div class="text-center text-white p-4">
+                                <h3 class="text-xl font-semibold mb-2">Technical Workshops</h3>
+                                <p>Hands-on workshops on emerging technologies conducted by industry experts.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="masonry-item">
+                    <div class="relative rounded-lg overflow-hidden group">
+                        <img src="https://readdy.ai/api/search-image?query=College%20students%20volunteering%20for%20community%20service%2C%20social%20responsibility%2C%20teamwork%2C%20helping%20others%2C%20diverse%20group%20of%20students%2C%20professional%20photography%20with%20emotional%20impact&width=400&height=500&seq=12354&orientation=portrait" alt="Community Service" class="w-full">
+                        <div class="absolute inset-0 bg-primary/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <div class="text-center text-white p-4">
+                                <h3 class="text-xl font-semibold mb-2">Community Service</h3>
+                                <p>Students giving back to the community through various social initiatives.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-12 text-center">
+                <button class="inline-flex items-center justify-center bg-white border-2 border-primary text-primary px-6 py-3 !rounded-button whitespace-nowrap font-medium hover:bg-gray-50">
+                    Load More
+                    <i class="ri-refresh-line ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- News & Updates -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">News & Updates</h2>
+                <p class="text-gray-700 max-w-3xl mx-auto">Stay updated with the latest happenings, events, and announcements from our campus.</p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2">
+                    <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                        <div class="p-8">
+                            <h3 class="text-2xl font-semibold text-gray-900 mb-6">Latest News</h3>
+                            <div class="space-y-8">
+                                <div class="flex flex-col md:flex-row gap-6">
+                                    <div class="md:w-1/3">
+                                        <img src="https://readdy.ai/api/search-image?query=University%20industry%20collaboration%2C%20corporate%20partnership%2C%20professional%20meeting%2C%20handshake%2C%20business%20attire%2C%20modern%20conference%20room%2C%20professional%20photography%20with%20corporate%20feel&width=300&height=200&seq=12355&orientation=landscape" alt="Industry Partnership" class="w-full h-48 object-cover object-top rounded-lg">
+                                    </div>
+                                    <div class="md:w-2/3">
+                                        <div class="text-sm text-primary font-medium mb-2">April 10, 2025</div>
+                                        <h4 class="text-xl font-semibold text-gray-900 mb-2">New Industry Partnership with TechGlobal Inc.</h4>
+                                        <p class="text-gray-700 mb-3">Aizza College has signed a strategic partnership with TechGlobal Inc. to enhance research opportunities and internship placements for our students.</p>
+                                        <a href="#" class="text-primary font-medium flex items-center">
+                                            Read More
+                                            <i class="ri-arrow-right-line ml-1"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col md:flex-row gap-6">
+                                    <div class="md:w-1/3">
+                                        <img src="https://readdy.ai/api/search-image?query=University%20research%20breakthrough%2C%20scientific%20discovery%2C%20laboratory%20setting%2C%20researchers%20celebrating%2C%20high-tech%20equipment%2C%20professional%20photography%20with%20scientific%20focus&width=300&height=200&seq=12356&orientation=landscape" alt="Research Breakthrough" class="w-full h-48 object-cover object-top rounded-lg">
+                                    </div>
+                                    <div class="md:w-2/3">
+                                        <div class="text-sm text-primary font-medium mb-2">April 5, 2025</div>
+                                        <h4 class="text-xl font-semibold text-gray-900 mb-2">Research Team Achieves Breakthrough in Renewable Energy</h4>
+                                        <p class="text-gray-700 mb-3">Our research team has developed a novel approach to solar energy conversion, achieving a record efficiency of 28% in laboratory conditions.</p>
+                                        <a href="#" class="text-primary font-medium flex items-center">
+                                            Read More
+                                            <i class="ri-arrow-right-line ml-1"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col md:flex-row gap-6">
+                                    <div class="md:w-1/3">
+                                        <img src="https://readdy.ai/api/search-image?query=University%20ranking%20announcement%2C%20celebration%2C%20campus%20pride%2C%20students%20cheering%2C%20academic%20achievement%2C%20professional%20photography%20with%20celebratory%20atmosphere&width=300&height=200&seq=12357&orientation=landscape" alt="Ranking Achievement" class="w-full h-48 object-cover object-top rounded-lg">
+                                    </div>
+                                    <div class="md:w-2/3">
+                                        <div class="text-sm text-primary font-medium mb-2">March 28, 2025</div>
+                                        <h4 class="text-xl font-semibold text-gray-900 mb-2">Aizza College Ranks in Top 50 Engineering Institutions</h4>
+                                        <p class="text-gray-700 mb-3">We are proud to announce that Aizza College has been ranked among the top 50 engineering institutions in the country according to the latest rankings.</p>
+                                        <a href="#" class="text-primary font-medium flex items-center">
+                                            Read More
+                                            <i class="ri-arrow-right-line ml-1"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="bg-white rounded-lg shadow-sm p-8 mb-8">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-6">Upcoming Events</h3>
+                        <div class="space-y-6">
+                            <div class="flex">
+                                <div class="flex-shrink-0 mr-4">
+                                    <div class="w-14 h-14 flex flex-col items-center justify-center rounded-lg bg-primary/10 text-primary">
+                                        <span class="text-sm font-medium">APR</span>
+                                        <span class="text-xl font-bold">20</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-medium text-gray-900">Tech Symposium 2025</h4>
+                                    <p class="text-gray-700 text-sm">9:00 AM - 5:00 PM, Main Auditorium</p>
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <div class="flex-shrink-0 mr-4">
+                                    <div class="w-14 h-14 flex flex-col items-center justify-center rounded-lg bg-primary/10 text-primary">
+                                        <span class="text-sm font-medium">APR</span>
+                                        <span class="text-xl font-bold">25</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-medium text-gray-900">Industry Expert Talk</h4>
+                                    <p class="text-gray-700 text-sm">2:00 PM - 4:00 PM, Conference Hall</p>
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <div class="flex-shrink-0 mr-4">
+                                    <div class="w-14 h-14 flex flex-col items-center justify-center rounded-lg bg-primary/10 text-primary">
+                                        <span class="text-sm font-medium">MAY</span>
+                                        <span class="text-xl font-bold">05</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-medium text-gray-900">Annual Sports Meet</h4>
+                                    <p class="text-gray-700 text-sm">8:00 AM - 6:00 PM, Sports Complex</p>
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <div class="flex-shrink-0 mr-4">
+                                    <div class="w-14 h-14 flex flex-col items-center justify-center rounded-lg bg-primary/10 text-primary">
+                                        <span class="text-sm font-medium">MAY</span>
+                                        <span class="text-xl font-bold">12</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-medium text-gray-900">Hackathon 2025</h4>
+                                    <p class="text-gray-700 text-sm">10:00 AM (24 Hours), IT Block</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-6">
+                            <a href="#" class="text-primary font-medium flex items-center justify-center">
+                                View All Events
+                                <i class="ri-calendar-line ml-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-sm p-8">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-6">Newsletter Subscription</h3>
+                        <p class="text-gray-700 mb-4">Stay updated with our latest news and events by subscribing to our newsletter.</p>
+                        <div class="mb-4">
+                            <input type="email" placeholder="Your Email Address" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary">
+                        </div>
+                        <button class="w-full bg-primary text-white px-4 py-3 !rounded-button whitespace-nowrap font-medium hover:bg-primary/90">Subscribe Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <h1 class="text-2xl font-['Pacifico'] text-white mb-6">Aizza</h1>
+                    <p class="text-gray-400 mb-6">Aizza College of Engineering and Technology is committed to providing world-class education and shaping the future of engineering and technology.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-primary transition-colors">
+                            <i class="ri-facebook-fill"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-primary transition-colors">
+                            <i class="ri-twitter-x-fill"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-primary transition-colors">
+                            <i class="ri-instagram-fill"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-primary transition-colors">
+                            <i class="ri-linkedin-fill"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-6">Quick Links</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Programs</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Admissions</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Campus Life</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Research</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Placements</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-6">Contact Information</h3>
+                    <ul class="space-y-3">
+                        <li class="flex">
+                            <i class="ri-map-pin-line mr-3 mt-1"></i>
+                            <span class="text-gray-400">123 University Avenue, Tech City, TC 54321</span>
+                        </li>
+                        <li class="flex">
+                            <i class="ri-phone-line mr-3 mt-1"></i>
+                            <span class="text-gray-400">+1 (555) 123-4567</span>
+                        </li>
+                        <li class="flex">
+                            <i class="ri-mail-line mr-3 mt-1"></i>
+                            <span class="text-gray-400">admissions@aizza.edu</span>
+                        </li>
+                        <li class="flex">
+                            <i class="ri-time-line mr-3 mt-1"></i>
+                            <span class="text-gray-400">Mon-Fri: 8:00 AM - 5:00 PM</span>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-6">Payment Methods</h3>
+                    <div class="flex flex-wrap gap-3 mb-6">
+                        <div class="w-12 h-8 flex items-center justify-center bg-gray-800 rounded">
+                            <i class="ri-visa-fill text-xl"></i>
+                        </div>
+                        <div class="w-12 h-8 flex items-center justify-center bg-gray-800 rounded">
+                            <i class="ri-mastercard-fill text-xl"></i>
+                        </div>
+                        <div class="w-12 h-8 flex items-center justify-center bg-gray-800 rounded">
+                            <i class="ri-paypal-fill text-xl"></i>
+                        </div>
+                        <div class="w-12 h-8 flex items-center justify-center bg-gray-800 rounded">
+                            <i class="ri-bank-card-fill text-xl"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-4">Emergency Contact</h3>
+                    <div class="flex items-center bg-gray-800 rounded-lg p-3">
+                        <i class="ri-phone-fill text-red-500 mr-3 text-xl"></i>
+                        <div>
+                            <p class="text-sm text-gray-400">Emergency Helpline</p>
+                            <p class="font-semibold">+1 (555) 911-0000</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-400 text-sm mb-4 md:mb-0">© 2025 Aizza College of Engineering and Technology. All rights reserved.</p>
+                    <div class="flex space-x-6">
+                        <a href="#" class="text-gray-400 hover:text-white text-sm">Privacy Policy</a>
+                        <a href="#" class="text-gray-400 hover:text-white text-sm">Terms of Service</a>
+                        <a href="#" class="text-gray-400 hover:text-white text-sm">Cookie Policy</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="fixed bottom-8 right-8 w-12 h-12 flex items-center justify-center bg-primary text-white rounded-full shadow-lg opacity-0 invisible transition-all duration-300">
+        <i class="ri-arrow-up-line text-xl"></i>
+    </button>
+
+    <!-- Cookie Consent -->
+    <div id="cookieConsent" class="fixed bottom-0 left-0 right-0 bg-white shadow-lg p-4 z-50">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between">
+            <div class="mb-4 md:mb-0 md:mr-8">
+                <p class="text-gray-700">We use cookies to enhance your experience on our website. By continuing to browse, you agree to our <a href="#" class="text-primary">Cookie Policy</a>.</p>
+            </div>
+            <div class="flex space-x-4">
+                <button id="acceptCookies" class="bg-primary text-white px-4 py-2 !rounded-button whitespace-nowrap font-medium hover:bg-primary/90">Accept All</button>
+                <button id="rejectCookies" class="bg-white border border-gray-300 text-gray-700 px-4 py-2 !rounded-button whitespace-nowrap font-medium hover:bg-gray-50">Reject All</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Back to top button
+            const backToTopButton = document.getElementById('backToTop');
+            
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    backToTopButton.classList.remove('opacity-0', 'invisible');
+                    backToTopButton.classList.add('opacity-100', 'visible');
+                } else {
+                    backToTopButton.classList.remove('opacity-100', 'visible');
+                    backToTopButton.classList.add('opacity-0', 'invisible');
+                }
+            });
+            
+            backToTopButton.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Cookie consent
+            const cookieConsent = document.getElementById('cookieConsent');
+            const acceptCookies = document.getElementById('acceptCookies');
+            const rejectCookies = document.getElementById('rejectCookies');
+            
+            if (localStorage.getItem('cookieConsent') === 'accepted' || localStorage.getItem('cookieConsent') === 'rejected') {
+                cookieConsent.style.display = 'none';
+            }
+            
+            acceptCookies.addEventListener('click', function() {
+                localStorage.setItem('cookieConsent', 'accepted');
+                cookieConsent.style.display = 'none';
+            });
+            
+            rejectCookies.addEventListener('click', function() {
+                localStorage.setItem('cookieConsent', 'rejected');
+                cookieConsent.style.display = 'none';
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Custom checkbox functionality
+            const customCheckboxes = document.querySelectorAll('.custom-checkbox');
+            
+            customCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('click', function() {
+                    this.checked = !this.checked;
+                });
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Custom switch functionality
+            const switchInputs = document.querySelectorAll('.custom-switch input');
+            
+            switchInputs.forEach(input => {
+                input.addEventListener('change', function() {
+                    // Additional functionality can be added here
+                });
+            });
+        });
+    </script>
+</body>
+</html>
